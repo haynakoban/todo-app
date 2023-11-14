@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { getDocs, collection, query, limit, orderBy } from 'firebase/firestore';
-import { db } from './firebase';
+import { db } from '../firebase';
 import moment from 'moment';
 
 const getTodos = async (maxResults: number = 20) => {
@@ -45,12 +45,19 @@ const getTodos = async (maxResults: number = 20) => {
   }
 };
 
-export default async function DashboardPage() {
-  const todos = await getTodos(10);
+export default async function TodosPage() {
+  const todos = await getTodos(50);
 
   return (
     <main className='mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 mt-5'>
-      <h1 className='text-2xl mb-2'>Dashboard</h1>
+      <div className='flex justify-between items-center mb-3'>
+        <h1 className='text-2xl font-medium'>Todos</h1>
+        <Link href='/todos/create'>
+          <button className='text-white bg-blue-700 hover:bg-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 focus:outline-none'>
+            Create Todo
+          </button>
+        </Link>
+      </div>
       <span className='text-sm'>
         Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos,
         mollitia magni odio fugit officiis molestias laborum consequuntur
@@ -61,15 +68,6 @@ export default async function DashboardPage() {
       </span>
 
       <hr className='my-10' />
-      <div className='mx-auto max-w-5xl'>
-        <h1 className='text-2xl mb-2'>Todos</h1>
-        <span className='text-sm'>
-          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Dignissimos,
-          mollitia magni odio fugit officiis molestias laborum consequuntur
-          officia consequatur numquam, minus nisi doloremque corrupti quidem?
-        </span>
-      </div>
-
       <div className='mx-auto max-w-5xl mt-10'>
         <h4 className='text-base tracking-wide font-normal border-b-gray-500 border-b w-36 text-center'>
           Results: <span className='font-medium'>{todos?.length}</span> Todos
